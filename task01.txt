@@ -1,0 +1,8 @@
+create a blog for iti that has the following pages
+1- home page => display the information about the blog posts
+    post info ---> title, body, details
+2- contact us page
+3- about us page
+
+make sure that you are using the template inheritance
+s
