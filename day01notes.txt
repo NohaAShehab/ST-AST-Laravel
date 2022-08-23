@@ -1,0 +1,85 @@
+What is framework?
+	set of libraries that can be used to build rapid application development
+	You should focus on what you need to do not how
+
+
+framework ---> solutions --> connect front with backend easily
+
+---> frontend frameworks (React, Vue, Angular) --> js based
+
+--> backend frameworks ---> lang php ---> laravel , symphony , zend , slim, code,,,,
+
+python ,,,> flask, django
+ node js ---> express
+ java - -> spring , spring boot
+ Go ----> Go framework
+	-----------------------------------------
+
+	to install laravel --->
+
+	You need install the php package management tool
+
+	Composer ---> I will use it to install laravel
+
+	1- download composer and install it
+	2- composer create-project laravel/laravel example-app
+
+	composer create-project laravel/laravel iti
+
+	-----------------------------------------
+
+	1- install composer
+
+	2- install laravel installer
+	composer global require laravel/installer
+
+	3- laravel new projectname
+
+	-----------------------------------
+
+My project name is iti
+
+urls or routes ---> iti/routes/web.php
+M ---> iti/app/models
+V ---->   iti/resources/views
+C ----> Controller ---> iti/app/http/controllers
+
+-------------------------------------------
+artisan tool ---> you will use it to do the most of operations on the application
+
+---> start development server
+--> create Controller or model or migrations
+--> check routes
+
+artisan --- is a php file has some commands
+to run the server
+	php artisan serve ---> this will start a development server
+							http://127.0.0.1:8000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
