@@ -56,6 +56,58 @@ to run the server
 	php artisan serve ---> this will start a development server
 							http://127.0.0.1:8000
 
+-------------------------------
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route---> what will happen when I found this route ((url))--->name
+request method --> get
+
+
+'/' --> url name
+
+
+function () {
+    return view('welcome');
+}  #### Anonomous function that will be executed when request is valid
+
+
+
+
+
+---------------------------------------------------
+
+
+
+Route::get("/home/{username}", function($username){
+
+    return view("homepage"); and send the username to this view
+
+});
+
+for bootstap
+https://getbootstrap.com/docs/5.2/getting-started/download/
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+----------------------------
+laravel ---> provide =---> blade template engine --->
+write html , css , js , php without using php tags
+
+
+if you are sending a simple variable to the view like
+    --. string, int, float , bool ---> you can display it in the view using  {{$variablename}}
+
+
+
+
+Template inheritance((I need to add a navbar to all the pages))
+in views ---> create folder ---> layouts --> app.blade.php
+
+goto homepage.blade ----> use the structure in app.blade.php
 
 
 
@@ -82,4 +134,13 @@ to run the server
 
 
 
-	
+
+
+
+
+
+
+
+
+
+
