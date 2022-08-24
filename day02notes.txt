@@ -1,0 +1,236 @@
+all the project logic is added in the web.php
+
+
+web.php task ((must have  only the routes)
+
+Controller: the brain of the project --> all logic
+
+
+to create userController
+
+    php artisan make:controller UserController
+
+------------ I need to add --> view button for each user
+
+
+------------------->
+if you want to add images, styles , js You must add them to the public folder
+
+
+===============================
+to create controller:
+    php artisan make:controller ProductController
+
+
+######################################################
+
+Product ---> Crud operations --> select , insert , update, delete
+
+C ---> create insert
+r ---> retrieve select
+u ===? update
+d ---> delete
+
+
+
+We need to connect to the database
+
+!- you need to configure the database connection
+open the file .env
+you will add the database credential to the .env file
+----------------------------------
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=astitiblog
+DB_USERNAME=itiphp
+DB_PASSWORD=Iti123456789_
+
+----------------------------------------
+2- I need to connect to the database
+
+create table products (id , name, description, image , price )?
+
+---> create table from mysql
+
+---> ask laravel to create the table
+migration files -->version control the  database
+
+you can use this file to ask the database to create or alter or drop table
+
+create products table
+php artisan make:migration create_products_table
+
+
+       this will create migration file has 2 functions
+       ---> up 0---> when this function called it will create table products
+        id ---> create primary key column for the table
+        timestamps ---> create 2 columns
+        created_at ?
+        updated_at ?
+
+
+       ---> down
+
+            drop if exists table ((products))
+            000> this function is called when you run php artisan migrate:rollback
+
+
+by default when you create new laravel application ((laravel creates migration file users table and password
+and access token ((you can use this table in the authentication process))
+
+
+and run the command
+    php artisan migrate
+  for the first time  ---> it will check all the migrations files in the migration files and apply them to the database
+
+  laravel create table migrations  ---> in the database that keeps track of the migrations applied on the db
+
+
+    when you run the command
+    php artisan migrate ----> laravel check the file names in the migrations table in the db
+    if the migration doesn't exists it will run
+
+
+    ---> assign batch number for the file migrated at the same time
+
+    ---> the batch number 000> indicates the migration order
+
+
+------------ to create products table
+
+
+create table products (id , name, description, image , price )?
+name ---> string
+description  ---> text
+image -->string
+price ---> number
+https://laravel.com/docs/9.x/migrations#creating-tables
+
+
+in mysql database ---> when you create table ---> default of the columns is NULL
+
+in tables created in mysql via laravel ---> default of all columns is not null.
+
+'CREATE TABLE `products` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` char(100) NOT NULL,
+  `image` varchar(255)  NOT NULL,
+  `price` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci';
+
+-------------
+after running the migration
+I need to connect to the tables from laravel to make the crud operations i need...
+
+Any connection to the database ---> will be done using the Model
+
+I need to make model ---> can get , send data to the products table
+
+ ---> php artisan make:model Product (( create elequent model class ))
+
+ model class in laravel --> implement design ORM ----> Object relation mapper -->
+ this helps you in the interaction with database --->
+
+ each table is considered to has crossponding class
+
+
+
+ ---> artisan tinker
+
+php artisan tinker
+
+any communication will be done using the Model
+
+############################
+to get all objects from the database
+
+Product::all();  ###  select * from products;
+
+####################3 get specific object
+
+select * from products where name='book';
+
+Product::where('name', 'book'); ## this will return with query builder
+
+Product::where('name', 'book')->get(); ===> array of objects that staisfy the condition
+
+######## get specific object using the id ?
+
+Product::find(id);
+
+##############################################################
+ORM---> Elequent -----> assume that each table has crossponding class , ----> and the columns in the table
+are the object properties or the attribute
+
+
+#################################33 update object
+
+$p = Product::find(2);
+$p->name=  "updated";
+$p->save();  # apply changes happened to the object in the database
+
+
+
+################## delete
+$p = Product::find(2);
+$p->delete();  # delete the object from the database...
+
+###################3 create
+$newproduct = new Product();
+$newproduct->name= "ballon";
+$newproduct->save();
+
+
+#########################3
+I need to display all products from the database
+when I select view --> product ---> display details
+
+
+    <td><a href="{{route("abbass",$p->id)}}" class="btn btn-primary"> Show2 </a></td>
+
+route()=--> search in web.php about the route with name "abbass" and get the crossponding url --->
+/products/1
+
+
+
+----------------- add new product
+
+csrf token ----> generate value for csrf
+
+----------------------------------------------------------------
+task
+
+    blog
+    posts/index ---> diplay all posts in the table , show button
+    posts/{id} ---> post details
+    posts/create ---> display form to create new post
+    posts with method POST .===> save data in the posts table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
