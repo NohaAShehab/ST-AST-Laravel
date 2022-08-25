@@ -1,0 +1,20 @@
+
+Edit ---->
+I need a form ---> display current data ----> (((Route, view)))
+
+---> submit ---> save the updated data to the database
+---------------------------------------------
+request methods
+1- get ---> get data , get page
+2- POST ----> save new data to the database
+3- PUT ---> used to update existing object   https://restfulapi.net/rest-put-vs-post/
+4- DELETE ---> used to delete existing object
+
+---------------------------------------------------
+
+
+
+
+
+
+

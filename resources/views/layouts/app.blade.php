@@ -40,7 +40,7 @@
     </nav>
 
 
-    <div class="container " style="background-color:antiquewhite">
+    <div class="container" >
         @yield('content')
     </div>
 

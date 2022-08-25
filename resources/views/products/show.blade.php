@@ -5,8 +5,8 @@
 {{--        @dump($product)--}}
     <h1> Product Info </h1>
 
-        <div class="card" style="width: 18rem;">
-            <img src="" class="card-img-top" alt="...">
+        <div class="card" style="width: 50%; margin:auto;">
+            <img src="{{asset("productsimages/".$product->image)}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h2 class="card-title"> {{$product->name}}</h2>
                 <p class="card-text">Description: {{$product->description}}</p>

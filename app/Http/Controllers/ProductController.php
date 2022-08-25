@@ -35,12 +35,7 @@ class ProductController extends Controller
     }
 
     function store(){
-//        var_dump($_POST);
-        ### you can see the data sent in the post request ---
-//        $data = request();
-//        dump($data);
         $name = request("name");
-//        dump($name);
         $price = request("price");
         $description = request("description");
         $image = request("image");
@@ -51,8 +46,38 @@ class ProductController extends Controller
         $newproduct->price = $price;
         $newproduct->image = $image;
         $newproduct->save();
-//        return "added";
+        return to_route("products.index");
+    }
 
+    function  edit($id){
+        $product = Product::findOrFail($id);
+        # return view(viewname) ---> from views folder in the resources
+        return view("products.edit", ["product"=>$product]);
+    }
+
+    function update($id){
+        $product = Product::findOrFail($id);
+        ## get the data from the request
+//        dump(request());
+
+        $name = request("name");
+        $price = request("price");
+        $description = request("description");
+        $image = request("image");
+        ################# update
+        $product->name=  $name;
+        $product->price = $price;
+        $product->description = $description;
+        $product->image = $image;
+        $product->save();
+
+        # return to_route(routename)===> name of the route in web.php
+        return to_route("product.show", $product->id);
+    }
+
+    function destroy($id){
+        $product= Product::findOrFail($id);
+        $product->delete();
         return to_route("products.index");
     }
 }
