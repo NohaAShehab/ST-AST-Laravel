@@ -2,8 +2,8 @@
 
 @section("content")
 
-    <h1> Edit Book </h1>
-    <form  action="" method="POST">
+    <h1> Add new Book </h1>
+    <form  action="{{route("books.store")}}" method="POST">
 
         @csrf
         <div class="mb-3">

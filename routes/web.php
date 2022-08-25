@@ -69,3 +69,7 @@ Route::put("/products/{id}",[ProductController::class, "update"])->name("product
 Route::delete("/products/{id}", [ProductController::class, "destroy"])->name("product.destroy");
 
 
+use App\Http\Controllers\BookController;
+
+Route::resource("books",BookController::class);  # generate all the required routes for crud
+

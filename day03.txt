@@ -11,7 +11,50 @@ request methods
 4- DELETE ---> used to delete existing object
 
 ---------------------------------------------------
+----> laravel introduce ---> resource Controller --->
+----> Model ---> Book ===>
 
+Controller , views ==?
+
+php artisan make:model Book -m  --->
+ create model with name book and migration file for books table ---> create_books_table
+
+create resource controller
+    php artisan make:controller BookController  -m Book
+
+
+create routes for the crud operation on the book:
+in web.php
+Route::resource("books",BookController::class);
+
+this will create all the needed crud routes
+    php artisan route:list
+
+  GET|HEAD        books .............................................. books.index › BookController@index
+  POST            books ............................................... books.store › BookController@store
+  GET|HEAD        books/create ........................... books.create › BookController@create
+  GET|HEAD        books/{book} ................................... books.show › BookController@show
+  PUT|PATCH       books/{book} .................................. books.update › BookController@update
+  DELETE          books/{book} ................................... books.destroy › BookController@destroy
+  GET|HEAD        books/{book}/edit .................................... books.edit › BookController@edit
+
+
+###########33 to create new book
+when you use the resource ===> with the store function
+    $request  ---> $request->all() ==> contains all the data sent by the client
+
+    request->all(); ===> Associative represent data ---> can be used with the
+    Book::create(request->all()); # mass assignement
+Mass assignment
+Book::create(['title'=>"book2", "desription"=>"book2"]);
+error:
+Illuminate\Database\Eloquent\MassAssignmentException with message 'Add [title] to fillable property to allow mass assignment on [App\Models\Book].'
+
+
+to all mass assignment: goto the model
+protected $fillable = ["title", "description"];
+
+----------------------- form validation
 
 
 
