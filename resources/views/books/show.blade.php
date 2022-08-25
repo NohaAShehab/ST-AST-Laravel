@@ -5,7 +5,7 @@
     <h1> {{$book->title}} Info </h1>
 
         <div class="card" style="width: 50%; margin:auto;">
-            <img src="{{asset("productimages/".$book->image)}}" class="card-img-top" alt="...">
+            <img src="{{asset("bookimages/".$book->image)}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h2 class="card-title"> {{$book->title}}</h2>
                 <p class="card-text">Description: {{$book->description}}</p>

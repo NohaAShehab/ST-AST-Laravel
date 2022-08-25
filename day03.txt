@@ -62,7 +62,32 @@ $request->validate([
 "title"=>"required"]);
 https://laravel.com/docs/9.x/validation#main-content
 
+====================> upload image ========================
+to upload file in the public folder
 
+!- modify the form
+    <form  action="{{route("books.store")}}" method="POST" enctype="multipart/form-data">
+
+2- modify image to be file field
+            <input type="file" name="image" value="{{old("image")}}"  class="form-control" >
+
+
+3- goto the controller
+you will find the image in ?
+$image = $request->file("image");
+then to upload the image
+if($image){
+    #1- get image name
+   $imagename =$image->getClientOriginalName();
+   # 2- prepare the destination --> upload image to bookimages in the public folder
+                $dstentaiton_path ="bookimages/";
+
+   # move the image to the public/bookimages
+               $image->move($dstentaiton_path, $imagename);
+
+    update the imagename in the request object ? ===> default --> tmpname
+
+}
 
 
 

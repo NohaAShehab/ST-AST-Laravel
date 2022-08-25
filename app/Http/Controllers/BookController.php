@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use PHPUnit\Framework\Constraint\FileExists;
 
 class BookController extends Controller
 {
@@ -38,20 +40,26 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        // when I use the resource controller this will provide $request object --> represent the content
-        // in the request() ---> function
-//        dump($request);
-////        dump("===============================");
-////        dump(request());
-//        $title = $request["title"];
-//        dump($title);
-        dump($request->all());
+        dump($request->all());  #I found the image file  request["image"] ="> image file  ===>
         $request->validate([
             "title"=>"required|min:5",
             "no_of_pages"=>"min_digits:2"
         ]);
-        Book::create($request->all());
-//        return  "added";
+        $inputdata = $request->all();
+        $image = $request->file("image");
+        dump($image);
+        if($image){
+//            $imagename =$image->getClientOriginalName();
+//            $imagename = date('YmdHis').$inputdata["title"].$image->getClientOriginalExtension();
+            $imagename=implode(".",
+                [date('YmdHis'),$inputdata["title"], $image->getClientOriginalExtension()]);
+            $dstentaiton_path ="bookimages/";
+            $image->move($dstentaiton_path, $imagename);
+            $inputdata["image"] = $imagename;
+        }
+
+
+        Book::create($inputdata);
         return to_route("books.index");
     }
 
@@ -93,8 +101,20 @@ class BookController extends Controller
             "title"=>"required|min:5",
             "no_of_pages"=>"min_digits:2"
         ]);
+        $inputdata= $request->all();
+        if($request->file("image")){
+            $this->deleteImage($book);
+            $new_image= $request->file("image"); #contain image object needed to be uploaded
+            ## prepare the image name
+            $imagename=implode(".",
+                [date('YmdHis'),$inputdata["title"], $new_image->getClientOriginalExtension()]);
+            ## prepere the destination I want to move the image to
+            $dstentaiton_path ="bookimages/";
+            $new_image->move($dstentaiton_path, $imagename);
+            $inputdata["image"] = $imagename;
+        }
 
-        $book->update($request->all());
+        $book->update($inputdata);
         return  to_route("books.show", $book->id);
     }
 
@@ -108,7 +128,17 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         //
+        dump($book);
+        if(File::exists(public_path("bookimages/$book->image"))){
+            File::delete(public_path("bookimages/$book->image"));
+        }
         $book->delete();
         return to_route("books.index");
+    }
+
+    private function  deleteImage(Book $book){
+        if(File::exists(public_path("bookimages/$book->image"))){
+            File::delete(public_path("bookimages/$book->image"));
+        }
     }
 }
