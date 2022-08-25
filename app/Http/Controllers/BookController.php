@@ -46,6 +46,10 @@ class BookController extends Controller
 //        $title = $request["title"];
 //        dump($title);
         dump($request->all());
+        $request->validate([
+            "title"=>"required|min:5",
+            "no_of_pages"=>"min_digits:2"
+        ]);
         Book::create($request->all());
 //        return  "added";
         return to_route("books.index");
@@ -85,9 +89,11 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
-//        dump($request->all());
-//        dump($book);
+        $request->validate([
+            "title"=>"required|min:5",
+            "no_of_pages"=>"min_digits:2"
+        ]);
+
         $book->update($request->all());
         return  to_route("books.show", $book->id);
     }

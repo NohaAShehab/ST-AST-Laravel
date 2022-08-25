@@ -56,6 +56,11 @@ protected $fillable = ["title", "description"];
 
 ----------------------- form validation
 
+---> validate required ---> return -->and say title required
+
+$request->validate([
+"title"=>"required"]);
+https://laravel.com/docs/9.x/validation#main-content
 
 
 
