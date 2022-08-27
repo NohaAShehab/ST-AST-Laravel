@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +77,5 @@ Route::delete("/products/{id}", [ProductController::class, "destroy"])->name("pr
 Route::resource("books",BookController::class);  # generate all the required routes for crud
 
 Route::resource("images", ImageController::class);
+
+Route::resource("authors", AuthorController::class);

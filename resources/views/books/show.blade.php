@@ -4,6 +4,7 @@
 @section("content")
     <h1> {{$book->title}} Info </h1>
 
+    {{$book->author? $book->author->name: ""}}
         <div class="card" style="width: 50%; margin:auto;">
             <img src="{{asset("bookimages/".$book->image)}}" class="card-img-top" alt="...">
             <div class="card-body">

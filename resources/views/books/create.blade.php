@@ -38,7 +38,13 @@
             <label class="form-label">Book Image</label>
             <input type="file" name="image" value="{{old("image")}}"  class="form-control" >
         </div>
-
+        <div class="mb-3">
+            <select class="form-select" aria-label="Default select example" name="author_id">
+                @foreach($authors as $author)
+                    <option value="{{$author->id}}">{{$author->name}}</option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

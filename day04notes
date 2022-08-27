@@ -5,6 +5,27 @@
     php artisan make:migration add_description_to_images_table
 
 
-==========================================================================
+=========================   One to many relationship  =================================================
 2- Each book must have one author (one to many relation)
-    php artisan make:model Author -mc
+    php artisan make:model Author -mcr
+
+
+-------- 1- Add column author_id to the books table
+---> this column foriegn key to the authors table
+        php artisan make:migration add_author_id_to_books_table
+
+
+1- author_id to the fillable in the book model
+
+2- update form to view list of  all authors
+
+3- display author_id in the books.index
+
+((I have the author_id , I need to get the author_name of book))
+--- any logic related to the table must be added to the model ----
+---< Add the forign key to the model
+
+
+-----------------------------
+display all the books written by the author
+select title from books where author_id = id;

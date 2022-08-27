@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Constraint\FileExists;
@@ -29,7 +30,8 @@ class BookController extends Controller
     public function create()
     {
         //
-        return view("books.create");
+        $authors = Author::all();
+        return view("books.create", ["authors"=>$authors]);
     }
 
     /**
@@ -85,7 +87,8 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         //
-        return view("books.edit", ["book"=>$book]);
+        $authors = Author::all();
+        return view("books.edit", ["book"=>$book, "authors"=>$authors]);
     }
 
     /**

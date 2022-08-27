@@ -8,7 +8,8 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
+            <th>Title
+            <th>Author</th>
             <th>No of pages</th>
             <th>View</th>
             <th>Edit</th>
@@ -20,6 +21,9 @@
         <tr>
             <td>{{$book->id}}</td>
             <td>{{$book->title}}</td>
+            <td><a href="{{$book->author_id?route("authors.show",$book->author_id):''}}">
+
+                    {{$book->author?$book->author->name:""}} </a></td>
             <td>{{$book->no_of_pages}}</td>
 
             <td><a href="{{route("books.show", $book->id)}}" class="btn btn-primary"> Book details </a></td>
