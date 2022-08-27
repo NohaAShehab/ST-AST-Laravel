@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +71,8 @@ Route::put("/products/{id}",[ProductController::class, "update"])->name("product
 Route::delete("/products/{id}", [ProductController::class, "destroy"])->name("product.destroy");
 
 
-use App\Http\Controllers\BookController;
+
 
 Route::resource("books",BookController::class);  # generate all the required routes for crud
 
+Route::resource("images", ImageController::class);

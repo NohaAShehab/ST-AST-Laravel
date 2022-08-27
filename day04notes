@@ -1,0 +1,10 @@
+
+
+1- add to column to existing table
+
+    php artisan make:migration add_description_to_images_table
+
+
+==========================================================================
+2- Each book must have one author (one to many relation)
+    php artisan make:model Author -mc
