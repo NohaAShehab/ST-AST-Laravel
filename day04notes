@@ -29,3 +29,26 @@
 -----------------------------
 display all the books written by the author
 select title from books where author_id = id;
+===================================================
+add Login , registeration to the website
+
+    laravel/ui ---> login , registration scaffolding pages
+
+
+Authentication:
+
+
+
+Authorization:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -26,21 +26,23 @@
                     {{$book->author?$book->author->name:""}} </a></td>
             <td>{{$book->no_of_pages}}</td>
 
-            <td><a href="{{route("books.show", $book->id)}}" class="btn btn-primary"> Book details </a></td>
-            <td><a href="{{route("books.edit", $book->id)}}" class="btn btn-warning"> Edit </a></td>
-            <td>
-                <form action="{{route("books.destroy", $book->id)}}" method="POST">
-                    @csrf
-                    @method("delete")
-                    <input type="submit"  class="btn btn-danger" value="Delete">
-                </form>
-            </td>
+<td><a href="{{$book->get_show_url()}}" class="btn btn-primary"> Book new details </a></td>
+
+<td><a href="{{route("books.show", $book->id)}}" class="btn btn-primary"> Book details </a></td>
+<td><a href="{{route("books.edit", $book->id)}}" class="btn btn-warning"> Edit </a></td>
+<td>
+    <form action="{{route("books.destroy", $book->id)}}" method="POST">
+        @csrf
+        @method("delete")
+        <input type="submit"  class="btn btn-danger" value="Delete">
+    </form>
+</td>
 
 
-        </tr>
+</tr>
 
-    @endforeach
-        </tbody>
-    </table>
-        <a href="{{route("books.create")}}" class="btn btn-success"> Create new Book  </a>
+@endforeach
+</tbody>
+</table>
+<a href="{{route("books.create")}}" class="btn btn-success"> Create new Book  </a>
 @endsection
