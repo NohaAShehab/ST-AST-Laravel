@@ -94,3 +94,15 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 2- create new mail
 
+
+
+
+
+
+
+
+Tasks:
+1- create middleware for active users and use it with any route
+2- create gates for admin, user,manager --> add it to the home.blade
+3- create policies for the Post model
+4- try to send an email
