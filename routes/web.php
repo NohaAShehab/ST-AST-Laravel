@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AuthorController;
+use App\Mail\ITIMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,4 +79,38 @@ Route::resource("books",BookController::class);  # generate all the required rou
 
 Route::resource("images", ImageController::class);
 
-Route::resource("authors", AuthorController::class);
+
+//Route::group(["middleware"=>"auth"], function (){
+//    Route::resource("authors", AuthorController::class);
+//});
+//Route::middleware('auth')->group(function(){
+//    Route::resource("authors", AuthorController::class);
+//    Route::resource("images", ImageController::class);
+//});
+
+//Route::resource("authors", AuthorController::class)->middleware("auth");
+Route::resource("images", ImageController::class);
+Route::get("/test", function (){
+    return "test";
+})->middleware("auth");
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')
+    ->middleware("active");
+
+################ Eng. Youssef Ayman suggests
+Route::middleware('auth')->group(function () {
+    Route::resource('authors', AuthorController::class, ['except' => ['index', 'show']]);
+});
+
+Route::resource('authors', AuthorController::class, ['only' => ['index', 'show']]);
+
+Route::get("send-email", function (){
+    $details = ["title"=>"This is my first email", "body"=>"Nice to meet you",
+        "name"=>"Youssef Ayman"];
+
+    \Illuminate\Support\Facades\Mail::to("nohashehab.iti@gmail.com")->send(new ITIMail($details));
+
+    dump("email sent");
+});

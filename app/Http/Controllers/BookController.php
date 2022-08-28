@@ -7,9 +7,19 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\Constraint\FileExists;
+use Illuminate\Support\Facades\Gate;
 
 class BookController extends Controller
 {
+
+    function __construct(){
+//        $this->middleware("auth");  # require login for all functions in this controller
+//        $this->middleware("auth")->only(["store", "update", "destroy"]);
+        $this->middleware("auth")->except(["create", "view", "index", "edit"]);
+        $this->middleware("active")->only("store"); # Yes or no ?
+
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,6 +40,8 @@ class BookController extends Controller
     public function create()
     {
         //
+        $this->authorize("create", Book::class);
+
         $authors = Author::all();
         return view("books.create", ["authors"=>$authors]);
     }
@@ -42,7 +54,8 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->all());  #I found the image file  request["image"] ="> image file  ===>
+
+
         $request->validate([
             "title"=>"required|min:5",
             "no_of_pages"=>"min_digits:2"
@@ -51,8 +64,6 @@ class BookController extends Controller
         $image = $request->file("image");
         dump($image);
         if($image){
-//            $imagename =$image->getClientOriginalName();
-//            $imagename = date('YmdHis').$inputdata["title"].$image->getClientOriginalExtension();
             $imagename=implode(".",
                 [date('YmdHis'),$inputdata["title"], $image->getClientOriginalExtension()]);
             $dstentaiton_path ="bookimages/";
@@ -75,6 +86,7 @@ class BookController extends Controller
     {
         // $book ---> contains the resource I need to show
 //        dump($book);
+
         return  view("books.show", ["book"=>$book]);
     }
 
@@ -100,25 +112,30 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $request->validate([
-            "title"=>"required|min:5",
-            "no_of_pages"=>"min_digits:2"
-        ]);
-        $inputdata= $request->all();
-        if($request->file("image")){
-            $this->deleteImage($book);
-            $new_image= $request->file("image"); #contain image object needed to be uploaded
-            ## prepare the image name
-            $imagename=implode(".",
-                [date('YmdHis'),$inputdata["title"], $new_image->getClientOriginalExtension()]);
-            ## prepere the destination I want to move the image to
-            $dstentaiton_path ="bookimages/";
-            $new_image->move($dstentaiton_path, $imagename);
-            $inputdata["image"] = $imagename;
-        }
 
-        $book->update($inputdata);
-        return  to_route("books.show", $book->id);
+        $user= auth()->user();
+        if($user->can('update',$book)) {
+                $request->validate([
+                    "title" => "required|min:5",
+                    "no_of_pages" => "min_digits:2"
+                ]);
+                $inputdata = $request->all();
+                if ($request->file("image")) {
+                    $this->deleteImage($book);
+                    $new_image = $request->file("image"); #contain image object needed to be uploaded
+                    ## prepare the image name
+                    $imagename = implode(".",
+                        [date('YmdHis'), $inputdata["title"], $new_image->getClientOriginalExtension()]);
+                    ## prepere the destination I want to move the image to
+                    $dstentaiton_path = "bookimages/";
+                    $new_image->move($dstentaiton_path, $imagename);
+                    $inputdata["image"] = $imagename;
+                }
+
+                $book->update($inputdata);
+                return to_route("books.show", $book->id);
+        }
+        return  abort(401);
     }
 
 
@@ -130,13 +147,25 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
-        dump($book);
-        if(File::exists(public_path("bookimages/$book->image"))){
-            File::delete(public_path("bookimages/$book->image"));
+//        if (Gate::allows('isAdmin')){
+//            dump($book);
+//            if(File::exists(public_path("bookimages/$book->image"))){
+//                File::delete(public_path("bookimages/$book->image"));
+//            }
+//        $book->delete();
+//        return to_route("books.index");
+//        }
+////        return "You are not authoried";
+//        return abort(401);  # call page ---> status code
+
+        if(Gate::allows("owner", [$book])) {
+            if(File::exists(public_path("bookimages/$book->image"))){
+                File::delete(public_path("bookimages/$book->image"));
+            }
+            $book->delete();
+            return to_route("books.index");
         }
-        $book->delete();
-        return to_route("books.index");
+        return  abort(401);
     }
 
     private function  deleteImage(Book $book){

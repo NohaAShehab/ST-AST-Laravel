@@ -1,0 +1,96 @@
+
+
+########## to create middleware to check if the  logged in user active or not
+
+
+1- add column active ---> bool to the users table
+
+php artisan make:migration add_active_column_to_users_table
+
+2- add this to the migration table
+            $table->boolean("active")->default(false);
+
+3- create middleware
+    php artisan make:middleware checkactiveStatus
+
+4- register middleware in the kernel file
+        'active'=> \App\Http\Middleware\checkactiveStatus::class
+
+5- add logic you need to the middle file
+ public function handle(Request $request, Closure $next)
+    {
+        if(auth()->user()->active){
+            return $next($request);  # available
+        }
+
+        return  response()->json("You need to activate your account");
+
+
+    }
+----> Then you can use the middleware in your application
+------------------------------------------------
+Authentication: make sure that user logged in successfully
+
+
+Authorization: make sure that the authenticated user can do something
+
+gates
+
+policies
+
+
+--------------
+Add column roles to the users table
+
+
+php artisan make:migration add_role_column_to_users_table
+
+roles ---> admin, manager, user
+------------------------------------------
+to create different gates
+
+-- in the file AuthServiceProvider
+
+ public function boot()
+    {
+        $this->registerPolicies();
+
+
+        // define your own gates
+
+        # by default gate get $user form auth()->user;
+        Gate::define("isAdmin", function ($user){
+            return $user->role==="admin";
+        });
+}
+
+----- use it in blade file ,,,,
+
+------------------------------- Gates, Policies
+gates ---> controlling ---> Crud operation ---> Model ? using policies
+
+1- php artisan make:policy BookPolicy --model=Book
+
+2- register class BookPolicy to the authservice provider
+
+3- writ
+
+
+
+
+
+------------- send email in laravel
+1- configuration .env
+
+MAIL_MAILER=smtp
+MAIL_HOST=iti.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=noha.iti@gmail.com
+MAIL_PASSWORD=iti
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noha.iti@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+
+2- create new mail
+
